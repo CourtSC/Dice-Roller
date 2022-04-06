@@ -48,8 +48,7 @@ while True: # Main program loop
 
         # Display the total.
         print(f'Total: {sum(rolls) + diceMod}')
-        if len(rolls) > 1:
-            print(f'Rolls: {rolls}')
+        print(f'Rolls: {rolls}')
         if diceMod != 0:
             print(f'Modifier: {modSign}{abs(diceMod)}')
 
