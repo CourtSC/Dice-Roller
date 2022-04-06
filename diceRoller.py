@@ -31,6 +31,7 @@ while True: # Main program loop
             modSign = '-'
             diceMod = -int(diceStr[modSignIndex + 1:])
         else: # There is no modifier.
+            modSignIndex = -1 
             modSign = '+'
             diceMod = 0
 
@@ -47,7 +48,8 @@ while True: # Main program loop
 
         # Display the total.
         print(f'Total: {sum(rolls) + diceMod}')
-        print(f'Rolls: {rolls}')
+        if len(rolls) > 1:
+            print(f'Rolls: {rolls}')
         if diceMod != 0:
             print(f'Modifier: {modSign}{abs(diceMod)}')
 
