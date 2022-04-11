@@ -1,14 +1,16 @@
 from random import randint
 import sys
 
-# TODO: Check for advantage and disadvantage.
 
 # Ask user for input.
 while True: # Main program loop
     try:
         diceStr = input('> ') # Prompt for input as string.
-        if diceStr.upper == 'QUIT':
-            sys.exit
+        if diceStr.upper() == 'QUIT':
+            sys.exit()
+            
+        # TODO: Check for advantage and disadvantage.
+        # TODO: Allow rolling multiple different dice at once. Ex: 1d4 + 1d6
 
         # Clean up input.
         diceStr = diceStr.lower().replace(' ','')
