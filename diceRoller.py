@@ -1,6 +1,12 @@
 from random import randint
 import sys
 
+# Dice rolling function.
+def diceRolls():
+    rolls = []
+    for roll in range(numberOfDice):
+        rolls.append(randint(1,sizeOfDice))
+    return rolls
 
 # Ask user for input.
 while True: # Main program loop
@@ -15,6 +21,13 @@ while True: # Main program loop
 
         # Clean up input.
         diceStr = diceStr.lower().replace(' ','')
+
+        # Check for Advantage (roll twice and take the higher value).
+        advIndex = diceStr.find('adv')
+        diceStr = diceStr.replace('adv','')
+        # Check for Disadvantage (roll twice and take the lower value).
+        disIndex = diceStr.find('dis')
+        diceStr = diceStr.replace('dis','')
 
         # Find the index of "d" in the input.
         dIndex = diceStr.find('d') # The index of the "d" character.
@@ -44,17 +57,31 @@ while True: # Main program loop
         else:
             sizeOfDice = int(diceStr[dIndex + 1: modSignIndex])
 
-        # Simulate dice rolls.
-        rolls = []
-        for roll in range(numberOfDice):
-            rolls.append(randint(1,sizeOfDice))
-
         # Display the total.
-        print(f'Total: {sum(rolls) + diceMod}')
-        print(f'Rolls: {rolls}')
+        if advIndex != -1 or disIndex != -1:
+            roll1 = diceRolls()
+            roll2 = diceRolls()
+
+        if advIndex != -1: # Roll with Advantage.
+            rolls = max(roll1,roll2)
+            print(f'Total: {sum(rolls) + diceMod}')
+            advRolls = '\u0336'+'\u0336'.join(str(min(roll1, roll2)))
+            print(f'{rolls}, {advRolls}')
+
+        elif disIndex != -1: # Roll with Disadvantage.
+            rolls = min(roll1, roll2)
+            print(f'Total: {sum(rolls) + diceMod}')
+            disRolls = '\u0336'+'\u0336'.join(str(max(roll1, roll2)))
+            print(f'{rolls}, {disRolls}')
+
+        else: # Roll normally.
+            rolls = diceRolls()
+            print(f'Total: {sum(rolls) + diceMod}')
+            print(f'Rolls: {rolls}')
+            
         if diceMod != 0:
-            print(f'Modifier: {modSign}{abs(diceMod)}')
-        print()
+            print(f'Modifier: {modSign} {abs(diceMod)}')
+        print('\n')
 
         # Verbose testing.
         # print(f'modSignIndex Value: {modSignIndex}')
