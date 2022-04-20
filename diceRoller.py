@@ -5,10 +5,11 @@ import sys
 # Ask user for input.
 while True: # Main program loop
     try:
-        diceStr = input('> ') # Prompt for input as string.
+        diceStr = input('Enter something like "3d6" or "1d10+2".\n>') # Prompt for input as string.
         if diceStr.upper() == 'QUIT':
             sys.exit()
             
+        # TODO: Add a help dialogue.
         # TODO: Check for advantage and disadvantage.
         # TODO: Allow rolling multiple different dice at once. Ex: 1d4 + 1d6
 
@@ -53,6 +54,7 @@ while True: # Main program loop
         print(f'Rolls: {rolls}')
         if diceMod != 0:
             print(f'Modifier: {modSign}{abs(diceMod)}')
+        print()
 
         # Verbose testing.
         # print(f'modSignIndex Value: {modSignIndex}')
