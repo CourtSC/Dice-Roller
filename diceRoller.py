@@ -16,12 +16,10 @@ while True: # Main program loop
             sys.exit()
             
         # TODO: Add a help dialogue.
-        # TODO: Check for advantage and disadvantage.
         # TODO: Allow rolling multiple different dice at once. Ex: 1d4 + 1d6
 
         # Clean up input.
         diceStr = diceStr.lower().replace(' ','')
-
         # Check for Advantage (roll twice and take the higher value).
         advIndex = diceStr.find('adv')
         diceStr = diceStr.replace('adv','')
