@@ -7,85 +7,88 @@ import sys
 def diceRolls():
     rolls = []
     for roll in range(numberOfDice):
-        rolls.append(randint(1,sizeOfDice))
+        rolls.append(randint(1, sizeOfDice))
     return rolls
 
+
 # Ask user for input.
-while True: # Main program loop
+while True:  # Main program loop
     try:
-        diceStr = input('Enter something like "3d6" or "1d10+2".\n>') # Prompt for input as string.
-        if diceStr.upper() == 'QUIT':
+        diceStr = input(
+            'Enter something like "3d6" or "1d10+2".\n>'
+        )  # Prompt for input as string.
+        if diceStr.upper() == "QUIT":
             sys.exit()
-            
+
         # TODO: Add a help dialogue.
 
         # Clean up input.
-        diceStr = diceStr.lower().replace(' ','')
+        diceStr = diceStr.lower().replace(" ", "")
         # Check for Advantage (roll twice and take the higher value).
-        advIndex = diceStr.find('adv')
-        diceStr = diceStr.replace('adv','')
+        advIndex = diceStr.find("adv")
+        diceStr = diceStr.replace("adv", "")
         # Check for Disadvantage (roll twice and take the lower value).
-        disIndex = diceStr.find('dis')
-        diceStr = diceStr.replace('dis','')
+        disIndex = diceStr.find("dis")
+        diceStr = diceStr.replace("dis", "")
 
-        # TODO: Allow rolling multiple different dice at once. Ex: 1d4, 1d6
-        diceStr = diceStr.split(',')
+        # Allow rolling multiple different dice at once. Ex: 1d4, 1d6
+        diceStr = diceStr.split(",")
 
         for roll in diceStr:
-        
+
             # Find the index of "d" in the input.
-            dIndex = roll.find('d') # The index of the "d" character.
+            dIndex = roll.find("d")  # The index of the "d" character.
             if dIndex == -1:
-                raise Exception ('Missing the "d" character.')
-            
+                raise Exception('Missing the "d" character.')
+
             # Find the number of dice.
             numberOfDice = int(roll[:dIndex])
 
             # Find the index of the modifier if one exists. Find the modifier.
-            if '+' in roll: # There is a '+' modifier.
-                modSignIndex = roll.find('+')
-                modSign = '+'
-                diceMod = int(roll[modSignIndex + 1:])
-            elif '-' in roll: # There is a '-' modifier.
-                modSignIndex = roll.find('-') 
-                modSign = '-'
-                diceMod = -int(roll[modSignIndex + 1:])
-            else: # There is no modifier.
-                modSignIndex = -1 
-                modSign = '+'
+            if "+" in roll:  # There is a '+' modifier.
+                modSignIndex = roll.find("+")
+                modSign = "+"
+                diceMod = int(roll[modSignIndex + 1 :])
+            elif "-" in roll:  # There is a '-' modifier.
+                modSignIndex = roll.find("-")
+                modSign = "-"
+                diceMod = -int(roll[modSignIndex + 1 :])
+            else:  # There is no modifier.
+                modSignIndex = -1
+                modSign = "+"
                 diceMod = 0
 
             # Find the size of the dice.
-            if modSignIndex == -1: # There is no modifier to the roll.
-                sizeOfDice = int(roll[dIndex + 1:])
+            if modSignIndex == -1:  # There is no modifier to the roll.
+                sizeOfDice = int(roll[dIndex + 1 :])
             else:
-                sizeOfDice = int(roll[dIndex + 1: modSignIndex])
+                sizeOfDice = int(roll[dIndex + 1 : modSignIndex])
 
             # Display the total.
             if advIndex != -1 or disIndex != -1:
                 roll1 = diceRolls()
                 roll2 = diceRolls()
 
-            if advIndex != -1: # Roll with Advantage.
-                rolls = max(roll1,roll2)
-                print(f'Total: {sum(rolls) + diceMod}')
-                advRolls = '\u0336'+'\u0336'.join(str(min(roll1, roll2)))
-                print(f'{rolls}, {advRolls}')
+            if advIndex != -1:  # Roll with Advantage.
+                rolls = max(roll1, roll2)
+                print(f"Total: {sum(rolls) + diceMod}")
+                advRolls = "\u0336" + "\u0336".join(str(min(roll1, roll2)))
+                print(f"{rolls}, {advRolls}")
 
-            elif disIndex != -1: # Roll with Disadvantage.
+            elif disIndex != -1:  # Roll with Disadvantage.
                 rolls = min(roll1, roll2)
-                print(f'Total: {sum(rolls) + diceMod}')
-                disRolls = '\u0336'+'\u0336'.join(str(max(roll1, roll2)))
-                print(f'{rolls}, {disRolls}')
+                print(f"Total: {sum(rolls) + diceMod}")
+                disRolls = "\u0336" + "\u0336".join(str(max(roll1, roll2)))
+                print(f"{rolls}, {disRolls}")
 
-            else: # Roll normally.
+            else:  # Roll normally.
                 rolls = diceRolls()
-                print(f'Total: {sum(rolls) + diceMod}')
-                print(f'Rolls: {rolls}')
-                
+                print(f"Total: {sum(rolls) + diceMod}")
+                print(f"Rolls: {rolls}")
+
             if diceMod != 0:
-                print(f'Modifier: {modSign} {abs(diceMod)}')
-            print('\n')
+                print(f"Modifier: {modSign} {abs(diceMod)}")
+            print("\n")
 
             # Verbose testing.
             # print(f'modSignIndex Value: {modSignIndex}')
@@ -95,5 +98,5 @@ while True: # Main program loop
     except Exception as exc:
         # Catch any exceptions and display to user.
         print('Invalid input. Enter something like "3d6" or "1d10+2".')
-        print('Input was invalid because: ' + str(exc))
+        print("Input was invalid because: " + str(exc))
         continue  # Go back to the dice string prompt.
